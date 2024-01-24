@@ -109,7 +109,7 @@ class UsuarioController extends Controller
     public function register(Request $request)
     {
         try {
-            // Validación
+
             $validator = Validator::make($request->all(), [
                 'email' => 'required|string|email|max:100|unique:usuarios',
                 'password' => 'required|string',
@@ -119,15 +119,14 @@ class UsuarioController extends Controller
                 return response()->json($validator->errors()->toJson(), 400);
             }
 
-            // Crear la persona
             $persona = Persona::create([
-                'primernombre' => 'Nombre',  // Puedes cambiar esto por el valor real
-                'segundonombre' => 'Segundo Nombre',  // Puedes cambiar esto por el valor real
-                'primerapellido' => 'Apellido',  // Puedes cambiar esto por el valor real
-                'segundoapellido' => 'Segundo Apellido',  // Puedes cambiar esto por el valor real
-                'usuariocreacion' => 'usuario_creacion',  // Puedes cambiar esto por el valor real
+                'primernombre' => 'Nombre',
+                'segundonombre' => 'Segundo Nombre',
+                'primerapellido' => 'Apellido',
+                'segundoapellido' => 'Segundo Apellido',
+                'usuariocreacion' => 'usuario_creacion',
             ]);
-            // Obtener el ID de la persona recién creada
+            // Obtener el id de la persona recién creada
             $idPersona = $persona->id;
 
             if ($validator->fails()) {
@@ -141,8 +140,8 @@ class UsuarioController extends Controller
                     'contrasena' => bcrypt($request->password),//Hash::make($request->password),//
                     'idpersona' => $idPersona,
                     'habilitado' => true,
-                    'fecha' => Carbon::now(), // Asigna la fecha actual
-                    'idrol' => 1, // Asigna el ID del rol (usuario)
+                    'fecha' => Carbon::now(),
+                    'idrol' => 1,
                 ]
             ));
             $token = JWTAuth::fromUser($usuario);
@@ -152,13 +151,13 @@ class UsuarioController extends Controller
                 'token' => $token
             ], 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Excepción de validación Laravel
+
             return response()->json(['error' => $e->errors()], 400);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // Excepción cuando no se encuentra un modelo
+
             return response()->json(['error' => 'No se encontró el modelo solicitado.'], 404);
         } catch (\Exception $e) {
-            // Otras excepciones
+
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -199,7 +198,7 @@ class UsuarioController extends Controller
             ], 404);
         }
 
-        // Devuelve los datos del usuario
+
         return response()->json([
             'contrasena' => $usuario->contrasena,
             'email' => $usuario->email,

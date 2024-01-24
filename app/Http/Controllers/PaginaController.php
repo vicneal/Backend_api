@@ -41,7 +41,7 @@ class PaginaController extends Controller
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'usuariocreacion' => now(),
-                'estado' => true, // Cambiado a booleano
+                'estado' => true,
                 'tipo' => null,
             ]);
             return response()->json($pagina, 201);

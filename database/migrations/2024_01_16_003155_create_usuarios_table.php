@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('idpersona');
             $table->string('contrasena');
-            $table->string('email')->unique(); //eliminar por que ya existe un usuario que representa el email creo xd
+            $table->string('email')->unique();
             $table->boolean('habilitado')->default(true);
             $table->date('fecha');
             $table->unsignedBigInteger('idrol');
