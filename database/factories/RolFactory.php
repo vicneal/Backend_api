@@ -17,9 +17,9 @@ class RolFactory extends Factory
     public function definition(): array
     {
         return [
-            'rol' => fake()->word(),
-            'usuariocreacion' => fake()->userName(),
-            'usuariomodificacion' => fake()->userName(),
+            // 'rol' => fake()->word(),
+            // 'usuariocreacion' => fake()->userName(),
+            // 'usuariomodificacion' => fake()->userName(),
         ];
     }
 }

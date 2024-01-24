@@ -13,6 +13,6 @@ class PaginaSeeder extends Seeder
      */
     public function run(): void
     {
-        Pagina::factory(5)->create();
+        // Pagina::factory(5)->create();
     }
 }

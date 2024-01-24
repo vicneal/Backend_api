@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PaginaController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UsuarioController;
 use App\Models\Usuario;
@@ -47,8 +48,14 @@ Route::group([
     Route::post('refresh', [UsuarioController::class, 'refresh']);
     Route::post('me', [UsuarioController::class, 'me']);
     Route::post('register', [UsuarioController::class, 'register']);
+    Route::get('listUsuario',[UsuarioController::class,'index']);
+    Route::put('usuarios/{id}/estado', [UsuarioController::class,'updateEstado']);
 });
 
 Route::get('listRol',[RolController::class,'index']);
 Route::put('/roles/{id}/estado', [RolController::class,'updateEstado']);
 Route::post('addRol',[RolController::class,'store']);
+
+
+Route::get('listPage',[PaginaController::class,'index']);
+Route::post('addPagina',[PaginaController::class,'store']);

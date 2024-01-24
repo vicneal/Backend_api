@@ -20,15 +20,15 @@ class DatabaseSeeder extends Seeder
         // ]);
         $rolSeeder = new RolSeeder();
         $rolSeeder->run();
-        $personaSeeder = new PersonaSeeder();
-        $personaSeeder->run();
-        $paginaSeeder = new PaginaSeeder();
-        $paginaSeeder->run();
-        $enlaceSeeder = new EnlaceSeeder();
-        $enlaceSeeder->run();
-        $usuarioSeeder = new UsuarioSeeder();
-        $usuarioSeeder->run();
-        $bitacoraSeeder = new BitacoraSeeder();
-        $bitacoraSeeder->run();
+        // $personaSeeder = new PersonaSeeder();
+        // $personaSeeder->run();
+        // $paginaSeeder = new PaginaSeeder();
+        // $paginaSeeder->run();
+        // $enlaceSeeder = new EnlaceSeeder();
+        // $enlaceSeeder->run();
+        // $usuarioSeeder = new UsuarioSeeder();
+        // $usuarioSeeder->run();
+        // $bitacoraSeeder = new BitacoraSeeder();
+        // $bitacoraSeeder->run();
     }
 }

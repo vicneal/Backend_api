@@ -12,7 +12,7 @@ class EnlaceController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**

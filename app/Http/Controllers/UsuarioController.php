@@ -9,6 +9,7 @@ use App\Models\Rol;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -29,13 +30,30 @@ class UsuarioController extends Controller
     {
         try {
             $credentials = $request->only('email', 'password');
-            $token = auth()->attempt($credentials);
+            $user = Usuario::where('email', $credentials['email'])->first();
+            $user->makeVisible('contrasena');
+            // $credentials['password'] = bcrypt($request->password);
+            //$token = auth()->attempt($credentials);
+            //$token = JWTAuth::fromUser($user);
 
-            if (!$token = JWTAuth::attempt($credentials)) {
+            // if (!$token = JWTAuth::attempt($credentials)) {
+            //     return response()->json(['error' => 'Unauthorized'], 401);
+            // }
+            if (Hash::check($request->password, $user->contrasena)) {
+                // Autenticación exitosa
+                //return response()->json(['message' => JWTAuth::fromUser($user)]);
+                $token = JWTAuth::fromUser($user);
+                return response()->json([
+                    'message' => 'Usuario registrado exitosamente!',
+                    //'user' => $usuario,
+                    'access_token' => $token
+                ], 201);
+            } else {
+                // Credenciales incorrectas
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
+            // return $this->respondWithToken($token);
 
-            return $this->respondWithToken($token);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -119,12 +137,12 @@ class UsuarioController extends Controller
             $usuario = Usuario::create(array_merge(
                 $validator->validate(),
                 [
-                'email' => $request->input('email'),
-                'contrasena' => bcrypt($request->password),
-                'idpersona' => $idPersona,
-                'habilitado' => true,
-                'fecha' => Carbon::now(), // Asigna la fecha actual
-                'idrol' => 1, // Asigna el ID del rol (usuario)
+                    'email' => $request->input('email'),
+                    'contrasena' => bcrypt($request->password),//Hash::make($request->password),//
+                    'idpersona' => $idPersona,
+                    'habilitado' => true,
+                    'fecha' => Carbon::now(), // Asigna la fecha actual
+                    'idrol' => 1, // Asigna el ID del rol (usuario)
                 ]
             ));
             $token = JWTAuth::fromUser($usuario);
@@ -151,7 +169,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
+        $data = Usuario::all();
+        return response()->json($data);
     }
 
     /**
@@ -167,7 +186,6 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
     /**
      * getUser obtiene el email del usuario.
@@ -188,6 +206,24 @@ class UsuarioController extends Controller
         ]);
     }
 
+    public function updateEstado(Request $request, $id)
+    {
+        $usuario = Usuario::findOrFail($id);
+
+        try {
+            $request->validate([
+                'estado' => 'required|boolean',
+            ]);
+
+            $usuario->habilitado = $request->input('estado');
+            $usuario->touch();
+            $usuario->save();
+
+            return response()->json($usuario);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     /**
      * Display the specified resource.
      */

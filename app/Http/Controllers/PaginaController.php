@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Carbon\Carbon;
 use App\Models\Pagina;
 use Illuminate\Http\Request;
 
@@ -12,7 +12,8 @@ class PaginaController extends Controller
      */
     public function index()
     {
-        //
+        $data = Pagina::all();
+        return response()->json($data);
     }
 
     /**
@@ -28,7 +29,25 @@ class PaginaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'url' => 'required|string|max:255',
+                'nombre' => 'required|string|max:255',
+                'descripcion' => 'required|string|max:255',
+            ]);
+
+            $pagina = Pagina::create([
+                'url' => $request->url,
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion,
+                'usuariocreacion' => now(),
+                'estado' => true, // Cambiado a booleano
+                'tipo' => null,
+            ]);
+            return response()->json($pagina, 201);
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
     }
 
     /**

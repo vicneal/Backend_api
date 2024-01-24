@@ -17,14 +17,14 @@ class PaginaFactory extends Factory
     public function definition(): array
     {
         return [
-            'url' => fake()->url(),
-            'estado' => fake()->randomElement(['activo', 'inactivo']),
-            'nombre' => fake()->word(),
-            'descripcion' => fake()->sentence(),
-            'icono' => fake()->word(),
-            'tipo' => fake()->randomElement(['publica', 'privada']),
-            'usuariocreacion' => fake()->userName(),
-            'usuariomodificacion' => fake()->userName(),
+            // 'url' => fake()->url(),
+            // 'estado' => fake()->randomElement(['activo', 'inactivo']),
+            // 'nombre' => fake()->word(),
+            // 'descripcion' => fake()->sentence(),
+            // 'icono' => fake()->word(),
+            // 'tipo' => fake()->randomElement(['publica', 'privada']),
+            // 'usuariocreacion' => fake()->userName(),
+            // 'usuariomodificacion' => fake()->userName(),
         ];
     }
 }
